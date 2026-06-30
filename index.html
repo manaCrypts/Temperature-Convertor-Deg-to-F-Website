@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="page-shell">
+        <div class="converter-card">
+            <div class="hero">
+                <h1>Temperature Converter</h1>
+                <p>Convert between Celsius and Fahrenheit with a smooth, clean experience.</p>
+            </div>
+
+            <form method="post" class="converter-form">
+                <label for="temperature">Value</label>
+                <input type="number" step="any" name="temperature" id="temperature" placeholder="Enter temperature" value="{{ input_value }}" required>
+
+                <label for="unit">Convert from</label>
+                <select name="unit" id="unit">
+                    <option value="celsius" {% if input_unit == 'celsius' %}selected{% endif %}>Celsius</option>
+                    <option value="fahrenheit" {% if input_unit == 'fahrenheit' %}selected{% endif %}>Fahrenheit</option>
+                </select>
+
+                <button type="submit">Convert</button>
+            </form>
+
+            {% if result %}
+                {% if result.error %}
+                    <div class="result error">
+                        <p>{{ result.error }}</p>
+                    </div>
+                {% else %}
+                    <div class="result success">
+                        <p class="result-label">Result</p>
+                        <h2>{{ result.output_value }}° {{ result.output_unit }}</h2>
+                        <p>{{ result.input_value }}° {{ result.input_unit }} equals {{ result.output_value }}° {{ result.output_unit }}.</p>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="hint-card">
+                    <p>Example: 32°C becomes 89.6°F.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
